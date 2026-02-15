@@ -1,72 +1,83 @@
-class POO {
-    condigo: string;
-    nombre: string;
-    edad: number;
-    laboratorio: number;
-    parcial: number;
-
-    constructor(_codigo: string, _nombre: string, _edad: number, _laboratorio: number, _parcial: number) {
-        this.condigo = _codigo
-        this.nombre = _nombre
-        this.edad = _edad
-        this.laboratorio = _laboratorio
-        this.parcial = _parcial
+/* class GYM{
+    peso:number;
+    altura:number;
+    constructor(peso:number, altura:number){
+        this.peso=peso;
+        this.altura=altura;
     }
 
-    public mostrarDatos(): void {
-        console.log(`El estudiate: ${this.nombre}`);
-        console.log(`Código: ${this.condigo}`);
-        console.log(`Tiene las siguientes notas - Laboratorio: ${this.laboratorio} Parcial: ${this.parcial}`);
-    }
-
-    public mostrarNotas(): void {
-        console.log(`Tiene las siguientes notas - Laboratorio: ${this.laboratorio} Parcial: ${this.parcial}`);
-    }
-
-}
-
-const estudiate1 = new POO('u20250017', 'Ken', 20, 10, 10)
-
-// estudiate1.mostrarDatos();
-estudiate1.mostrarNotas();
-
-
-class Redes {
-    nombre: string;
-    laboratorio1: number;
-    laboratorio2: number;
-    laboratorio3: number;
-    parcial1: number;
-    parcial2: number;
-    parcial3: number;
-
-    constructor(
-        _nombre: string,
-        _laboratorio1: number,
-        _laboratorio2: number,
-        _laboratorio3: number,
-        _parcial1: number,
-        _parcial2: number,
-        _parcial3: number
-    ) {
-        this.nombre = _nombre
-        this.laboratorio1 = _laboratorio1
-        this.laboratorio2 = _laboratorio2
-        this.laboratorio3 = _laboratorio3
-        this.parcial1 = _parcial1
-        this.parcial2 = _parcial2
-        this.parcial3 = _parcial3
-    }
-
-
-
-    public imprimirDatos(): void {
-        const notaLaboratorio = ((this.laboratorio1 + this.laboratorio2 + this.laboratorio3) * 0.60) / 3
-        const notaParcial = ((this.parcial1 + this.parcial2 + this.parcial3) * 0.40) / 3
-        console.log(`${this.nombre} ${this.laboratorio1} ${this.laboratorio2} ${this.laboratorio3} ${this.parcial1} ${this.parcial2} ${this.parcial3} = ${notaLaboratorio + notaParcial}`);
+    public imc():void{
+        let res = this.peso/this.altura**2
+        if(res < 18.5){
+            console.log("Usted tiene bajo peso " + res.toFixed(2))
+        } else if(res >= 18.5 && res <= 24.9){
+            console.log("Usted tiene un peso nomral " + res.toFixed(2))
+        } else if(res >= 25 && res <= 29.9){
+            console.log("Usted tiene sobrepeso " + res.toFixed(2))
+        } else if(res >= 30){
+            ("Usted tiene obesidad " + res.toFixed(2))
+        } 
     }
 }
 
-const alumno1 = new Redes('Ken', 10, 8, 10, 10, 10, 10)
+let cliente = new GYM(0, 2)
+cliente.imc() */
 
-alumno1.imprimirDatos()
+/* class conversorTemperatura {
+    temp:number;
+
+    constructor(temp:number){
+    this.temp = temp
+    }
+
+    public FC(): void{
+        let res = (this.temp - 32) /1.8
+        console.log(res.toFixed(2))
+    }
+
+    public CF(): void{
+        let res = (this.temp * 1.8) + 32
+        console.log(res.toFixed(2))
+    }
+
+    public KF(): void{
+        let res = (this.temp - 273.15) * 1.8 + 32
+        console.log(res.toFixed(2))
+
+    }
+
+    public KC(): void{
+        let res = this.temp - 273.15
+        console.log(res.toFixed(2))
+    }
+}
+
+let temperatura = new conversorTemperatura(100);
+temperatura.FC()
+temperatura.CF()
+temperatura.KF()
+temperatura.KC() */
+
+class instituto {
+    estudiante:string;
+    falta:number;
+    constructor(estudiante:string,falta:number){
+        this.estudiante=estudiante;
+        this.falta=falta
+    }
+
+    public infracción():void{
+        if(this.falta==1){
+            console.log("Usted " + this.estudiante + " llegó tarde debe pagar $1")
+        } else if(this.falta==2){
+            console.log("Usted " + this.estudiante + " anda fuera del aula en horarios de clase, debe pagar $3")
+        } else if(this.falta==3){
+            console.log("Usted " + this.estudiante + " no trae la vestimenta apropiada, debe pagar $5")
+        } else if(this.falta==4){
+            console.log("Usted " + this.estudiante + " no ha hecho uso adecuado de las instalaciónes, debe pagar $10")
+        }
+    }
+}
+
+let infra = new instituto("Pocho",4)
+infra.infracción()
