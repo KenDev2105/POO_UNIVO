@@ -1,83 +1,101 @@
-/* class GYM{
-    peso:number;
-    altura:number;
-    constructor(peso:number, altura:number){
-        this.peso=peso;
-        this.altura=altura;
-    }
+// class Usuario {
+//     public nombre: string;
 
-    public imc():void{
-        let res = this.peso/this.altura**2
-        if(res < 18.5){
-            console.log("Usted tiene bajo peso " + res.toFixed(2))
-        } else if(res >= 18.5 && res <= 24.9){
-            console.log("Usted tiene un peso nomral " + res.toFixed(2))
-        } else if(res >= 25 && res <= 29.9){
-            console.log("Usted tiene sobrepeso " + res.toFixed(2))
-        } else if(res >= 30){
-            ("Usted tiene obesidad " + res.toFixed(2))
-        } 
-    }
-}
+//     constructor(nombre: string){
+//         this.nombre = nombre;
+//     }
+// }
 
-let cliente = new GYM(0, 2)
-cliente.imc() */
+// const u = new Usuario("Juan");
+// console.log(u.nombre);
 
-/* class conversorTemperatura {
-    temp:number;
 
-    constructor(temp:number){
-    this.temp = temp
-    }
+// class Usuario {
+//     private password: string;
+//     constructor(pass: string) {
+//         this.password = pass;
+//     }
 
-    public FC(): void{
-        let res = (this.temp - 32) /1.8
-        console.log(res.toFixed(2))
-    }
+//     validar(pass: string): boolean {
+//         return this.password === pass;
+//     }
+// }
 
-    public CF(): void{
-        let res = (this.temp * 1.8) + 32
-        console.log(res.toFixed(2))
-    }
+// const u = new Usuario('1234');
 
-    public KF(): void{
-        let res = (this.temp - 273.15) * 1.8 + 32
-        console.log(res.toFixed(2))
+// console.log(u.validar('1234'));
 
-    }
-
-    public KC(): void{
-        let res = this.temp - 273.15
-        console.log(res.toFixed(2))
+class Persona {
+    constructor(protected edad: number) {
+        this.edad = edad
     }
 }
 
-let temperatura = new conversorTemperatura(100);
-temperatura.FC()
-temperatura.CF()
-temperatura.KF()
-temperatura.KC() */
+class Estudiante extends Persona {
+    mostrarEdad() {
+        console.log(this.edad);
+    }
+}
 
-class instituto {
-    estudiante:string;
-    falta:number;
-    constructor(estudiante:string,falta:number){
-        this.estudiante=estudiante;
-        this.falta=falta
+const e = new Estudiante(20);
+
+e.mostrarEdad();
+
+
+class Usuario {
+    public username: string;
+    private password: string;
+
+    constructor(username: string, password: string) {
+        this.username = username;
+        this.password = password;
     }
 
-    public infracción():void{
-        if(this.falta==1){
-            console.log("Usted " + this.estudiante + " llegó tarde debe pagar $1")
-        } else if(this.falta==2){
-            console.log("Usted " + this.estudiante + " anda fuera del aula en horarios de clase, debe pagar $3")
-        } else if(this.falta==3){
-            console.log("Usted " + this.estudiante + " no trae la vestimenta apropiada, debe pagar $5")
-        } else if(this.falta==4){
-            console.log("Usted " + this.estudiante + " no ha hecho uso adecuado de las instalaciónes, debe pagar $10")
+    login(pass: string): string {
+        if (pass === this.password) {
+            return "Acceso concedido";
+        } else {
+            return "Contraseña incorrecta";
         }
     }
 }
 
-let infra = new instituto("Pocho",4)
-infra.infracción()
+const u = new Usuario('Kenneth', 'kenmej2105')
+console.log(u.login('kenmej2105'));
+
+class Producto {
+    constructor(
+        public nombre: string,
+        private precio: number
+    ) { }
+
+    evaluarPrecio(): string {
+        if (this.precio < 10) {
+            return "Producto barato";
+        } else if (this.precio <= 50) {
+            return "Precio normal";
+        } else {
+            return "Producto caro";
+        }
+    }
+}
+
+const p = new Producto('Chocolate', 2);
+console.log(p.evaluarPrecio());
+
+class Empleado {
+    constructor(
+        public nombre: string,
+        protected salario: number
+    ) { }
+}
+
+class Gerente extends Empleado {
+    bono(): number {
+        if (this.salario > 1000) {
+            return this.salario * 0.2;
+        } else {
+            return this.salario * 0.1;
+        }
+    }
+}
