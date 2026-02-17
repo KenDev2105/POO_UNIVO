@@ -13,9 +13,6 @@ class informacion {
         this.correo = correo;
         this.codIdentificación = codIdentificacion
     };
-
-    
-
 }
 
 const info = new informacion("Kenneth", "Mejia", 74950536, "kj_mejia@hotmail.com", "u20250017")
