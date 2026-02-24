@@ -1,73 +1,140 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-//  *** Ejercicio 1 ***
-class informacion {
-    constructor(nombre, apellido, telefono, correo, codIdentificacion) {
-        this.nombre = nombre;
-        this.apellido = apellido;
-        this.telefono = telefono;
-        this.correo = correo;
-        this.codIdentificación = codIdentificacion;
+import console from "console";
+import { read } from "fs";
+import * as readline from "readline";
+import { runInThisContext } from "vm";
+// ! Ejemplo de Clase
+/* class Programa {
+    private rl: readline.Interface;
+
+    constructor(){
+        this.rl = readline.createInterface({
+            input: process.stdin,
+            output: process.stdout
+        })
+    }
+    iniciar(): void{
+        this.pedirNumero();
+    }
+    pedirNumero(): void{
+        this.rl.question("Ingresa un número: ", (respuesta:string) =>{
+            const numero = Number(respuesta)
+            this.evaluarNumero(numero);
+            this.cerrar()
+        })
+    }
+
+    evaluarParImpar(num:number): void{
+        if(num % 2 === 0){
+            console.log("Numero par")
+        } else{
+            console.log("Numero impar")
+        }
+    }
+
+    evaluarNumero(numero: number): void{
+        if(numero > 10){
+            console.log("Es mayor que 10")
+        } else if (numero === 10){
+            console.log("Es igual a 10")
+        } else {
+            console.log("Es menor que 10")
+        }
+    }
+
+    cerrar(): void{
+        this.rl.close()
+    }
+}
+
+const app = new Programa()
+app.iniciar() */
+//? Ejercicio 1
+/* class Escuela {
+    private rl: readline.Interface;
+
+    constructor(){
+        this.rl = readline.createInterface({
+            input: process.stdin,
+            output: process.stdout
+        });
+    }
+
+    iniciarEscuela(): void{
+        this.pedirNota()
+    }
+
+    pedirNota(): void{
+        this.rl.question("Ingresa la nota: ", (nota:string) => {
+            const numero = parseFloat(nota);
+            this.estadoAcademico(numero);
+            this.cerrar();
+        })
+    }
+
+    estadoAcademico(nota:number):void{
+        if(nota >= 9 && nota <= 10){
+            console.log("Excelente")
+        } else if(nota >= 7 && nota < 9){
+            console.log("Bueno")
+        } else if (nota >= 6 && nota < 7){
+            console.log("Regular")
+        } else if(nota < 6){
+            console.log("Reprobado")
+        }
+    }
+
+    cerrar(): void{
+        this.rl.close();
+    }
+}
+
+const estudiante = new Escuela();
+estudiante.iniciarEscuela();
+ */
+// ? Ejercicio 2
+class Autenticacion {
+    constructor() {
+        this.rl = readline.createInterface({
+            input: process.stdin,
+            output: process.stdout
+        });
+    }
+    iniciarAutenticacion() {
+        this.pedirDatos();
+    }
+    pedirDatos() {
+        this.rl.question("Ingresa tu usuario: ", (user) => {
+            this.rl.question("Ingresa tu contraseña: ", (pass) => {
+                this.rl.question("Ingrese su rol: 1 = Administrador, 2 = Cliente, 3 = Invitado ", (rol) => {
+                    const numero = Number(rol);
+                    this.autenticarDatos(user, pass, numero);
+                    this.cerrar();
+                });
+            });
+        });
+    }
+    autenticarDatos(user, pass, rol) {
+        if (user === "kendev2105" && pass === "12345678" && rol === 1) {
+            console.log("Acceso concedido");
+            console.log("Usted es Administrador");
+        }
+        else if (user === "kendev2105" && pass === "12345678" && rol === 2) {
+            console.log("Acceso concedido");
+            console.log("Usted es Cliente");
+        }
+        else if (user === "kendev2105" && pass === "12345678" && rol === 3) {
+            console.log("Acceso concedido");
+            console.log("Usted es Invitado");
+        }
+        else {
+            console.log("Acceso denegado, revise usuario o contraseña");
+        }
+    }
+    cerrar() {
+        this.rl.close();
     }
     ;
 }
-const info = new informacion("Kenneth", "Mejia", 74950536, "kj_mejia@hotmail.com", "u20250017");
-// console.log(info)
-// *** Ejercicio 2 ***
-class producto {
-    constructor(nombre, stock, precio) {
-        this.nombre = nombre;
-        this.stock = stock;
-        this.precio = precio;
-    }
-    ;
-    descuento(desc) {
-        const descuento = this.precio * desc;
-        const descuento_total = this.precio - descuento;
-        const iva = descuento_total * 0.13;
-        const total = descuento_total + iva;
-        console.log("--- Cantidad de producto: " + this.stock + " ---");
-        console.log("--- Precio: $" + this.precio.toFixed(2) + " ---");
-        console.log("--- Porcentaje de Descuento: " + desc * 100 + "% Descuento aplicado: $" + descuento_total.toFixed(2) + " ---");
-        console.log(" --- IVA: $" + iva.toFixed(2) + " ---");
-        console.log("--- Total a pagar: " + total.toFixed(2) + " ---");
-    }
-}
-const prod = new producto("Laptop", 10, 1000);
-// prod.descuento(0.75)
-// *** Ejercicio 3 ***
-class edad {
-    constructor(nombre, fecha) {
-        this.nombre = nombre;
-        this.fecha = fecha;
-    }
-    calcularEdad() {
-        let año = this.fecha.slice(6);
-        let edad = 2026 - parseFloat(año);
-        console.log("Su edad es: " + edad);
-        if (edad >= 0 && edad <= 2) {
-            console.log("Es un bebé");
-        }
-        else if (edad > 2 && edad <= 10) {
-            console.log("Es niño/niña");
-        }
-        else if (edad > 10 && edad <= 14) {
-            console.log("Es pre-adolescente");
-        }
-        else if (edad > 14 && edad <= 17) {
-            console.log("Es adolescente");
-        }
-        else if (edad >= 18 && edad < 30) {
-            console.log("Es joven");
-        }
-        else if (edad >= 30 && edad < 50) {
-            console.log("Es adulto");
-        }
-        else if (edad >= 50) {
-            console.log("Es adulto mayor");
-        }
-    }
-}
-const ed = new edad("Ken", "21-05-2006");
-ed.calcularEdad();
+const autenticar = new Autenticacion();
+autenticar.iniciarAutenticacion();
 //# sourceMappingURL=index.js.map
