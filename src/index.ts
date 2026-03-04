@@ -1,5 +1,3 @@
-import type { privateDecrypt } from "node:crypto";
-
 class Vehiculo{
     protected marca: string;
     protected modelo: string;
