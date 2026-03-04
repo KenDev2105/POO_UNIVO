@@ -1,179 +1,86 @@
-/* Ejemplos linea 1-135
-   Ejercicios linea 138 en delante
-*/
+import type { privateDecrypt } from "node:crypto";
 
-// Ejemplo 1
-class Player{
-    nombre: string;
-    vida: number;
+class Vehiculo{
+    protected marca: string;
+    protected modelo: string;
+    protected año: number;
 
-    constructor(nombre:string, vida:number){
-        this.nombre = nombre;
-        this.vida = vida;
-    };
-
-    recibirDaño(): void{
-        const puntos = Number(Math.random().toFixed(2))*100
-        this.vida -= puntos
-        console.log(`Has recibido ${puntos.toFixed(0)} de daño, tu vida actual es de:  ${this.vida}`)
-    };
-
-    status():void {
-        if(this.vida <= 0){
-            console.log("Has muerto!")
-        } else{
-            console.log(`Sigues con vida! ${this.nombre}, estas lleno de Determinación`  )
-        }
-    }
-}
-
-/* const pj = new Player("Ken", 100)
-pj.recibirDaño()
-pj.status() */
-
-// Ejemplo 2
-class OrdenCafe{
-    tipoCafe:string;
-    cantidad:number;
-    precio:number;
-
-    constructor(tipoCafe:string, cantidad:number, precio: number){
-        this.tipoCafe = tipoCafe;
-        this.cantidad = cantidad;
-        this.precio = precio;
-    }
-
-    totalPagar(cantidad:number){
-        if(cantidad > this.cantidad){
-            const total = cantidad * this.precio
-            console.log(`Su total a pagar es de $${total}`)
-        } else{
-            console.log("No hay cantidad suficiente de producto o stock del mismo")
-        }
-    }
-}
-
-/* const pedido = new OrdenCafe("Capuccino", 20, 4)
-pedido.totalPagar(21) */
-
-// Ejemplo 3
-class Mascota{
-    nombre: string;
-    hambre: number;
-
-    constructor(nombre: string, hambre:number){
-        this.nombre = nombre;
-        this.hambre = hambre;
-    }
-
-    comer(){
-        this.hambre -= 20
-        console.log(`El hambre ha disminuido en 20, tienes ${this.hambre} de hambre`)
-    }
-
-    correr(){
-        this.hambre += 10
-        console.log(`El hambre ha incrementado en 10, tiene ${this.hambre} de hambre`)
-    }
-}
-
-/* const perro = new Mascota("Balú",100)
-perro.comer()
-perro.correr() */
-
-// Ejemplo 4
-class Alarma{
-    codigo: string;
-    estado: boolean = true;
-
-    constructor(codigo:string){
-        this.codigo = codigo;
-    }
-
-    desactivar(intento: string):void{
-        if(intento === this.codigo){
-            this.estado = false
-            console.log("El codigo de acceso es valido, continue")
-        } else{
-            console.log("EL codigo de acceso es incorrecto")
-        }
-    }
-}
-
-/* const alarma = new Alarma("u20250017")
-alarma.desactivar("u20250017") */
-
-// Ejemplo 5
-
-class TanqueCombustible{
-    capacidadMaxima: number = 100;
-    nivelActual: number = 60;
-
-    constructor(capacidadMaxima:number, nivelActual:number){
-        this.capacidadMaxima = capacidadMaxima;
-        this.nivelActual = nivelActual
-    }
-
-    agregarCombustible(agregar:number):void{
-        if(this.nivelActual <= this.capacidadMaxima){
-            this.nivelActual += agregar
-            console.log(`Tienes ${this.nivelActual} de gasolina`)
-        } else{
-            console.log(`Has superado el limite maximo del tanque`)
-        }
-    }
-
-    consumirCombustible():void{
-        if(this.nivelActual === 0){
-            console.log("No tienes gasolina")
-        } else if(this.nivelActual > 0 && this.nivelActual <= 15){
-            console.log("Tienes poca gasolina")
-        }
-    }
-}
-
-/* const corvette = new TanqueCombustible(100,45)
-corvette.agregarCombustible(56) */
-
-// Ejercicio 1
-class Empleado{
-    nombre: string;
-    salarioBase: number;
-    horasExtra: number;
-
-    constructor(nombre:string, salarioBase: number, horasExtra:number){
-        this.nombre = nombre;
-        this.salarioBase = salarioBase;
-        this.horasExtra = horasExtra;
-    }
-
-    salarioTotal(cantidadHoras:number){
-        this.horasExtra *= cantidadHoras
-        const total = this.salarioBase + this.horasExtra
-        console.log(`Su salario base es de: $${this.salarioBase.toFixed(2)} \n Su total de horas extra trabajadas es de: ${cantidadHoras} por un monto de $${this.horasExtra.toFixed(2)} \n Su pago total es de: $${total}`)
-    }
-}
-
-const empleado = new Empleado("Ken", 1000, 100);
-empleado.salarioTotal(2)
-
-class cuentaBancaria{
-    titular: string;
-    saldo: number = 0;
-    
-    constructor(titular:string){
-        this.titular = titular;
-    }
-
-    depositar():void{
+    constructor(marca:string, modelo:string, año:number){
+        if (!marca || !modelo) throw new Error("Marca y modelo son obligatorios");
+        if (año > new Date().getFullYear()) throw new Error("El año no es valido")
         
+        this.marca = marca;
+        this.modelo = modelo;
+        this.año = año
+    };
+
+    public mostrarInformacion(): void{
+        console.log(`Vehiculo: ${this.marca} ${this.modelo} ${this.año}`)
+    }
+}
+
+
+class Automovil extends Vehiculo{
+    private numPuertas: number;
+
+    constructor(marca:string, modelo:string, año:number, numPuertas:number){
+        super(marca, modelo, año);
+        this.numPuertas = numPuertas;
+    };
+
+    public override mostrarInformacion(): void {
+        super.mostrarInformacion();
+        console.log(`Número de puertas: ${this.numPuertas}`)
+    }
+}
+
+console.log(" --- Iniciando Registro de Vehiculos --- ")
+
+try {
+    const miCarro = new Automovil("Honda", "Civic", 2020, 2);
+    miCarro.mostrarInformacion();
+} catch (error:any){
+    console.log(`[LOG]: Se bloqueó un intento de registro inválido, Razón: ${error.message}`);
+}
+
+console.log(" --- Fin del proceso. El sistema continúa en ejecución. ---");
+
+//Ejercicio Guiado en Clase
+class Contenido{
+    constructor(
+        protected titulo: string,
+        protected duracionMinutos: number,
+        protected clasificacion: "A" | "B" | "C"
+    ) {
+        if (!titulo.trim()) throw new Error("El titulo no puede estar vacio.");
+        if (duracionMinutos <= 0) throw new Error("La duración debe ser mayor a 0");
     }
 
-    retirar():void{
-
+    public mostrarDetalles():void {
+        console.log(`Titulo: ${this.titulo} | Clasificación: [${this.clasificacion}]`);
     }
+}
 
-    consultarSaldo(): void{
-
+class Pelicula extends Contenido{
+    constructor(
+        titulo:string,
+        duracionMinutos: number,
+        clasificacion: "A" | "B" | "C",
+        private director: string
+    ) {
+        super(titulo, duracionMinutos, clasificacion)
+            if(!director.trim()) throw new Error("El director es obligatorio. ");
     }
+    
+    override mostrarDetalles(): void {
+        super.mostrarDetalles();
+        console.log(`Director: ${this.director} | Tipo: Largometraje`);
+    }
+}
+
+try{
+    const nuevaPeli = new Pelicula("Oppenheimer", 180, "B", "" )
+    nuevaPeli.mostrarDetalles();
+} catch (error:any) {
+    console.log(`[Error] Usted hizo un registro invalido. Error: ${error.message}`)
 }

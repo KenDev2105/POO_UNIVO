@@ -1,128 +1,71 @@
-/* Ejemplos linea 1-135
-   Ejercicios linea 138 en delante
-*/
-// Ejemplo 1
-class Player {
-    constructor(nombre, vida) {
-        this.nombre = nombre;
-        this.vida = vida;
+class Vehiculo {
+    constructor(marca, modelo, año) {
+        if (!marca || !modelo)
+            throw new Error("Marca y modelo son obligatorios");
+        if (año > new Date().getFullYear())
+            throw new Error("El año no es valido");
+        this.marca = marca;
+        this.modelo = modelo;
+        this.año = año;
     }
     ;
-    recibirDaño() {
-        const puntos = Number(Math.random().toFixed(2)) * 100;
-        this.vida -= puntos;
-        console.log(`Has recibido ${puntos.toFixed(0)} de daño, tu vida actual es de:  ${this.vida}`);
+    mostrarInformacion() {
+        console.log(`Vehiculo: ${this.marca} ${this.modelo} ${this.año}`);
+    }
+}
+class Automovil extends Vehiculo {
+    constructor(marca, modelo, año, numPuertas) {
+        super(marca, modelo, año);
+        this.numPuertas = numPuertas;
     }
     ;
-    status() {
-        if (this.vida <= 0) {
-            console.log("Has muerto!");
-        }
-        else {
-            console.log(`Sigues con vida! ${this.nombre}, estas lleno de Determinación`);
-        }
+    mostrarInformacion() {
+        super.mostrarInformacion();
+        console.log(`Número de puertas: ${this.numPuertas}`);
     }
 }
-/* const pj = new Player("Ken", 100)
-pj.recibirDaño()
-pj.status() */
-// Ejemplo 2
-class OrdenCafe {
-    constructor(tipoCafe, cantidad, precio) {
-        this.tipoCafe = tipoCafe;
-        this.cantidad = cantidad;
-        this.precio = precio;
+console.log(" --- Iniciando Registro de Vehiculos --- ");
+try {
+    const miCarro = new Automovil("Honda", "Civic", 2020, 2);
+    miCarro.mostrarInformacion();
+}
+catch (error) {
+    console.log(`[LOG]: Se bloqueó un intento de registro inválido, Razón: ${error.message}`);
+}
+console.log(" --- Fin del proceso. El sistema continúa en ejecución. ---");
+//Ejercicio Guiado en Clase
+class Contenido {
+    constructor(titulo, duracionMinutos, clasificacion) {
+        this.titulo = titulo;
+        this.duracionMinutos = duracionMinutos;
+        this.clasificacion = clasificacion;
+        if (!titulo.trim())
+            throw new Error("El titulo no puede estar vacio.");
+        if (duracionMinutos <= 0)
+            throw new Error("La duración debe ser mayor a 0");
     }
-    totalPagar(cantidad) {
-        if (cantidad > this.cantidad) {
-            const total = cantidad * this.precio;
-            console.log(`Su total a pagar es de $${total}`);
-        }
-        else {
-            console.log("No hay cantidad suficiente de producto o stock del mismo");
-        }
+    mostrarDetalles() {
+        console.log(`Titulo: ${this.titulo} | Clasificación: [${this.clasificacion}]`);
     }
 }
-/* const pedido = new OrdenCafe("Capuccino", 20, 4)
-pedido.totalPagar(21) */
-// Ejemplo 3
-class Mascota {
-    constructor(nombre, hambre) {
-        this.nombre = nombre;
-        this.hambre = hambre;
+class Pelicula extends Contenido {
+    constructor(titulo, duracionMinutos, clasificacion, director) {
+        super(titulo, duracionMinutos, clasificacion);
+        this.director = director;
+        if (!director.trim())
+            throw new Error("El director es obligatorio. ");
     }
-    comer() {
-        this.hambre -= 20;
-        console.log(`El hambre ha disminuido en 20, tienes ${this.hambre} de hambre`);
-    }
-    correr() {
-        this.hambre += 10;
-        console.log(`El hambre ha incrementado en 10, tiene ${this.hambre} de hambre`);
+    mostrarDetalles() {
+        super.mostrarDetalles();
+        console.log(`Director: ${this.director} | Tipo: Largometraje`);
     }
 }
-/* const perro = new Mascota("Balú",100)
-perro.comer()
-perro.correr() */
-// Ejemplo 4
-class Alarma {
-    constructor(codigo) {
-        this.estado = true;
-        this.codigo = codigo;
-    }
-    desactivar(intento) {
-        if (intento === this.codigo) {
-            this.estado = false;
-            console.log("El codigo de acceso es valido, continue");
-        }
-        else {
-            console.log("EL codigo de acceso es incorrecto");
-        }
-    }
+try {
+    const nuevaPeli = new Pelicula("Oppenheimer", 180, "B", "");
+    nuevaPeli.mostrarDetalles();
 }
-/* const alarma = new Alarma("u20250017")
-alarma.desactivar("u20250017") */
-// Ejemplo 5
-class TanqueCombustible {
-    constructor(capacidadMaxima, nivelActual) {
-        this.capacidadMaxima = 100;
-        this.nivelActual = 60;
-        this.capacidadMaxima = capacidadMaxima;
-        this.nivelActual = nivelActual;
-    }
-    agregarCombustible(agregar) {
-        if (this.nivelActual <= this.capacidadMaxima) {
-            this.nivelActual += agregar;
-            console.log(`Tienes ${this.nivelActual} de gasolina`);
-        }
-        else {
-            console.log(`Has superado el limite maximo del tanque`);
-        }
-    }
-    consumirCombustible() {
-        if (this.nivelActual === 0) {
-            console.log("No tienes gasolina");
-        }
-        else if (this.nivelActual > 0 && this.nivelActual <= 15) {
-            console.log("Tienes poca gasolina");
-        }
-    }
+catch (error) {
+    console.log(`[Error] Usted hizo un registro invalido. Error: ${error.message}`);
 }
-/* const corvette = new TanqueCombustible(100,45)
-corvette.agregarCombustible(56) */
-// Ejercicio 1
-class Empleado {
-    constructor(nombre, salarioBase, horasExtra) {
-        this.nombre = nombre;
-        this.salarioBase = salarioBase;
-        this.horasExtra = horasExtra;
-    }
-    salarioTotal(cantidadHoras) {
-        this.horasExtra *= cantidadHoras;
-        const total = this.salarioBase + this.horasExtra;
-        console.log(`Su salario base es de: $${this.salarioBase.toFixed(2)} \n Su total de horas extra trabajadas es de: ${cantidadHoras} por un monto de $${this.horasExtra.toFixed(2)} \n Su pago total es de: $${total}`);
-    }
-}
-const empleado = new Empleado("Ken", 1000, 100);
-empleado.salarioTotal(2);
 export {};
 //# sourceMappingURL=index.js.map
