@@ -9,7 +9,7 @@ class Player {
     }
     ;
     recibirDaño() {
-        const puntos = Number(Math.random().toFixed(2)) * 100;
+        const puntos = Number(Math.random().toFixed(2)) * 100; //Daño random entre 0 - 100
         this.vida -= puntos;
         console.log(`Has recibido ${puntos.toFixed(0)} de daño, tu vida actual es de:  ${this.vida}`);
     }
@@ -124,5 +124,85 @@ class Empleado {
 }
 const empleado = new Empleado("Ken", 1000, 100);
 empleado.salarioTotal(2);
+//Ejercicio 2
+class cuentaBancaria {
+    constructor(titular) {
+        this.saldo = 0;
+        this.titular = titular;
+    }
+    depositar(monto) {
+        this.saldo += monto;
+        console.log(`Usted ha ingresado: $${monto}\nSu saldo ahora es de: $${this.saldo}`);
+    }
+    retirar(monto) {
+        if (monto > this.saldo) {
+            console.log("Fondos Insuficientes");
+        }
+        else {
+            this.saldo -= monto;
+            console.log(`Usted ha retirado: $${monto} \nSu saldo ahora es de: $${this.saldo}`);
+        }
+    }
+    consultarSaldo() {
+        console.log(`Su saldo es de: $${this.saldo}`);
+    }
+}
+const cuenta = new cuentaBancaria("Ken");
+cuenta.consultarSaldo();
+cuenta.depositar(100);
+cuenta.retirar(10);
+cuenta.consultarSaldo();
+// Ejercicio 3
+class Vehiculo {
+    constructor(marca, modelo, año) {
+        this.marca = marca;
+        this.modelo = modelo;
+        this.año = año;
+    }
+    mostrarInformacion() {
+        console.log(`--- Datos del Vehiculo --- \nMarca: ${this.marca} \nModelo: ${this.modelo} \nAño: ${this.año} `);
+    }
+}
+const skyline = new Vehiculo("Nissan", "Skyline GTR R34", 1999);
+skyline.mostrarInformacion();
+const altima = new Vehiculo("Nissan", "Altima", 2015);
+altima.mostrarInformacion();
+//Ejercicio 4
+class ProductoTienda {
+    constructor(nombre, precio) {
+        this.nombre = nombre;
+        this.precio = precio;
+    }
+    ;
+    aplicarDescuento(descuento) {
+        const desc = this.precio * (descuento / 100);
+        const precioFinal = this.precio - desc;
+        console.log(`El precio de su producto (con descuento) es de: $${precioFinal.toFixed(2)}`);
+    }
+}
+const prod = new ProductoTienda("PS5", 699);
+prod.aplicarDescuento(10);
+// Ejercicio 5
+class Personaje {
+    constructor(nombre) {
+        this.nivel = 1;
+        this.nombre = nombre;
+    }
+    ;
+    subirNivel() {
+        ++this.nivel;
+        return this.nivel;
+    }
+    verEstado() {
+        console.log(`Nombre: ${this.nombre} \nNivel: ${this.nivel}`);
+    }
+}
+const personaje = new Personaje("Verso");
+personaje.verEstado();
+personaje.subirNivel();
+personaje.verEstado();
+personaje.subirNivel();
+personaje.verEstado();
+personaje.subirNivel();
 export {};
 //# sourceMappingURL=index.js.map
