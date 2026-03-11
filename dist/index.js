@@ -1,170 +1,199 @@
-import strict from "node:assert/strict";
+import { FORMERR } from "node:dns";
 import { stringify } from "node:querystring";
-class Vehiculo {
-    constructor(marca, modelo, año) {
-        if (!marca || !modelo)
-            throw new Error("Marca y modelo son obligatorios");
-        if (año > new Date().getFullYear())
-            throw new Error("El año no es valido");
-        this.marca = marca;
-        this.modelo = modelo;
-        this.año = año;
+class Sensor {
+    constructor(id, valorActual) {
+        this.id = id;
+        this.valorActual = valorActual;
     }
-    ;
-    mostrarInformacion() {
-        console.log(`Vehiculo: ${this.marca} ${this.modelo} ${this.año}`);
+    actualizarValor(nuevoValor) {
+        this.valorActual = nuevoValor;
+        console.log(`Sensor: ${this.id} actualizó su valor a: ${this.valorActual} `);
+        this.procesarLectura();
     }
 }
-class Automovil extends Vehiculo {
-    constructor(marca, modelo, año, numPuertas) {
-        super(marca, modelo, año);
-        this.numPuertas = numPuertas;
-    }
-    ;
-    mostrarInformacion() {
-        super.mostrarInformacion();
-        console.log(`Número de puertas: ${this.numPuertas}`);
+class SensorTemperatura extends Sensor {
+    procesarLectura() {
+        if (this.valorActual > 40) {
+            console.log(`ALERTA: Temperatura crìtica en ${this.valorActual}º `);
+        }
     }
 }
-console.log(" --- Iniciando Registro de Vehiculos --- ");
+class SensorHumedad extends Sensor {
+    procesarLectura() {
+        if (this.valorActual < 20) {
+            console.log(`ALERTA: Humedad baja en ${this.id}`);
+        }
+    }
+}
+const termometro = new SensorTemperatura("TEMP_01", 25);
+termometro.actualizarValor(45);
+const humedad = new SensorHumedad("HUM_01", 30);
+humedad.actualizarValor(15);
+class MetodoPago {
+}
+class TarjetaCredito extends MetodoPago {
+    procesarPago(monto) {
+        console.log(`Validando tarjeta y cobrando $${monto}`);
+    }
+}
+class PayPal extends MetodoPago {
+    procesarPago(monto) {
+        console.log(`Redirigiendo API de PayPal para cobrar $${monto}`);
+    }
+}
+function realizarCompra(metodo, total) {
+    metodo.procesarPago(total);
+}
+const pago1 = new TarjetaCredito();
+const pago2 = new PayPal();
+pago1.procesarPago(100);
+pago2.procesarPago(1000);
+class Habilidad {
+    constructor(nombre, costo) {
+        this.nombre = nombre;
+        this.costo = costo;
+    }
+}
+class HechizoFuego extends Habilidad {
+    usar() {
+        console.log(`Lanzando ${this.nombre} (Costo: ${this.costo}) maná`);
+    }
+}
+class GolpeEspada extends Habilidad {
+    usar() {
+        console.log(`Ejecutando ${this.nombre} (Costo: ${this.costo}) estamina`);
+    }
+}
+function activarHabilidad(h) {
+    h.usar();
+}
+const poder1 = new HechizoFuego("Lanzallamas", 20);
+const poder2 = new GolpeEspada("Judgement Cut", 20);
+class Empleado {
+    constructor(nombre, id) {
+        this.nombre = nombre;
+        this.id = id;
+        if (!nombre)
+            throw new Error("Nombre requerido");
+    }
+    mostrarRecibo() {
+        console.log(`Empleado ${this.nombre} | ID: ${this.id}`);
+        console.log(`Salario neto: ${this.calcularSalario()}`);
+    }
+}
+class Desarrollador extends Empleado {
+    constructor(nombre, id, proyecto) {
+        super(nombre, id);
+        this.proyecto = proyecto;
+    }
+    calcularSalario() {
+        return 2500;
+    }
+}
+class Freelancer extends Empleado {
+    constructor(nombre, id, horas, tarifa) {
+        super(nombre, id);
+        this.horas = horas;
+        this.tarifa = tarifa;
+        if (horas < 0 || tarifa < 0)
+            throw new Error("Valores invalidos.");
+    }
+    calcularSalario() {
+        return this.horas * this.tarifa;
+    }
+}
 try {
-    const miCarro = new Automovil("Honda", "Civic", 2020, 2);
-    miCarro.mostrarInformacion();
+    const emp1 = new Desarrollador("William", 1, "App Movil");
+    const emp2 = new Freelancer("Ortiz", 2, 20, 250);
+    emp1.mostrarRecibo();
+    console.log("---");
+    emp2.mostrarRecibo();
 }
-catch (error) {
-    console.log(`[LOG]: Se bloqueó un intento de registro inválido, Razón: ${error.message}`);
+catch (e) {
+    console.log(`Error ${e.message}`);
 }
-console.log(" --- Fin del proceso. El sistema continúa en ejecución. ---");
-//Ejercicio Guiado en Clase
-class Contenido {
-    constructor(titulo, duracionMinutos, clasificacion) {
-        this.titulo = titulo;
-        this.duracionMinutos = duracionMinutos;
-        this.clasificacion = clasificacion;
-        if (!titulo.trim())
-            throw new Error("El titulo no puede estar vacio.");
-        if (duracionMinutos <= 0)
-            throw new Error("La duración debe ser mayor a 0");
-    }
-    mostrarDetalles() {
-        console.log(`Titulo: ${this.titulo} | Clasificación: [${this.clasificacion}]`);
-    }
-}
-class Pelicula extends Contenido {
-    constructor(titulo, duracionMinutos, clasificacion, director) {
-        super(titulo, duracionMinutos, clasificacion);
-        this.director = director;
-        if (!director.trim())
-            throw new Error("El director es obligatorio. ");
-    }
-    mostrarDetalles() {
-        super.mostrarDetalles();
-        console.log(`Director: ${this.director} | Tipo: Largometraje`);
-    }
-}
-try {
-    const nuevaPeli = new Pelicula("Oppenheimer", 180, "B", "");
-    nuevaPeli.mostrarDetalles();
-}
-catch (error) {
-    console.log(`[Error] Usted hizo un registro invalido. Error: ${error.message}`);
-}
+//Ejercicios
 // Ejercicio 1
-class Cuenta {
-    constructor(titular, saldo) {
-        if (saldo <= 0)
-            throw new Error("El saldo no puede ser menor a cero");
-        this.titular = titular;
-        this.saldo = saldo;
-    }
-    ;
+class Heroe {
+    constructor(nombre) { }
 }
-class CuentaAhorro extends Cuenta {
-    constructor(titular, saldo, tasaInteres) {
-        super(titular, saldo);
-        this.tasaInteres = tasaInteres;
-    }
-    ;
-    calcularInteres() {
-        const interes = this.tasaInteres * this.saldo;
-        const interesAplicado = this.saldo + interes;
-        return interesAplicado;
+class Volador extends Heroe {
+    usarPoder() {
+        console.log(`Estoy volando por los cielos`);
     }
 }
-try {
-    const cuenta = new CuentaAhorro("Ken", 0, 0.10);
-    cuenta.calcularInteres();
+class Fuerte extends Heroe {
+    usarPoder() {
+        console.log(`Estoy levantando un camión`);
+    }
 }
-catch (error) {
-    console.log(`[Error] Usted hizo un registro invalido. Error: ${error.message}`);
-}
+const volador = new Volador("Ken");
+volador.usarPoder();
+const fuerte = new Fuerte("Kevin");
+fuerte.usarPoder();
 // Ejercicio 2
-class Persona {
-    constructor(nombre, edad) {
-        this.nombre = nombre;
-        this.edad = edad;
-        if (this.edad <= 0)
-            throw new Error(`La edad no puede ser menor ni igual a cero`);
-    }
-    ;
+class MaquinaBebida {
 }
-class Estudiante extends Persona {
-    constructor(nombre, edad, carnet) {
-        super(nombre, edad);
-        this.carnet = carnet;
-    }
-    presentarse() {
-        console.log(`Mi nombre es: ${this.nombre} y tengo ${this.edad} años. Soy estudiante y este es mi carnet ${this.carnet}`);
+class Cafetera extends MaquinaBebida {
+    servir() {
+        console.log(`Sirviendo un cafè caliente`);
     }
 }
-class Docente extends Persona {
-    constructor(nombre, edad, especialidad) {
-        super(nombre, edad);
-        this.especialidad = especialidad;
-    }
-    presentarse() {
-        console.log(`Mi nombre es: ${this.nombre} y tengo ${this.edad} años. Soy docente y me especializo en: ${this.especialidad}`);
+class DispensadorSoda extends MaquinaBebida {
+    servir() {
+        console.log(`Sirviendo soda con hielo`);
     }
 }
-try {
-    const estudiante = new Estudiante("Ken", 0, "u20250017");
-    estudiante.presentarse();
-}
-catch (error) {
-    console.log(`[Error] Usted hizo un registro invalido. Error: ${error.message}`);
-}
-const estudiante = new Estudiante("Ken", 20, "u20250017");
-estudiante.presentarse();
-const docente = new Docente("Ken", 20, "Matematicas");
-docente.presentarse();
+const cafe = new Cafetera();
+const soda = new DispensadorSoda();
+cafe.servir();
+soda.servir();
 // Ejercicio 3
-class Producto {
-    constructor(nombre, precioBase) {
+class Persona {
+    constructor(nombre) {
         this.nombre = nombre;
-        this.precioBase = precioBase;
     }
 }
-class ProductoFisico extends Producto {
-    constructor(nombre, precioBase, pesoKG) {
-        super(nombre, precioBase);
-        this.pesoKG = pesoKG;
+class Formal extends Persona {
+    constructor(nombre) {
+        super(nombre);
+        this.nombre = nombre;
     }
-    precioFinal() {
-        const total = this.precioBase + 2 * this.pesoKG;
-        console.log(`El precio base de su producto es de $${this.precioBase} \nEl precio final es de $${total}`);
-    }
-}
-class ProductoDigital extends Producto {
-    constructor(nombre, precioBase, plataforma) {
-        super(nombre, precioBase);
-        this.plataforma = plataforma;
-    }
-    precioFinal() {
-        console.log(`El precio final de su producto es de $${this.precioBase}`);
+    saludar() {
+        console.log(`Mucho gusto, mi nombre es ${this.nombre}`);
     }
 }
-const fisico = new ProductoFisico("Bloodborne", 40, 1);
-fisico.precioFinal();
-const digital = new ProductoDigital("Bloodborne", 40, "PlayStation Store");
-digital.precioFinal();
+class Informal extends Persona {
+    constructor(nombre) {
+        super(nombre);
+        this.nombre = nombre;
+    }
+    saludar() {
+        console.log(`Que onda, soy ${this.nombre}`);
+    }
+}
+const formal = new Formal("Stanley");
+formal.saludar();
+const informal = new Informal("Fabri");
+informal.saludar();
+// Ejercicio 4
+class Electrodomestico {
+    constructor(marca) {
+        this.marca = marca;
+    }
+}
+class Licuadora extends Electrodomestico {
+    funcionar() {
+        console.log(`La licuadora ${this.marca} esta moliendo fruta`);
+    }
+}
+class Microondas extends Electrodomestico {
+    funcionar() {
+        console.log(`El microondas ${this.marca} esta calentando comida`);
+    }
+}
+const licuadora = new Licuadora("Ninja");
+licuadora.funcionar();
+const microondas = new Microondas("Ninja");
+microondas.funcionar();
 //# sourceMappingURL=index.js.map
