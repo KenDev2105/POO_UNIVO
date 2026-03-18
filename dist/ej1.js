@@ -20,4 +20,4 @@ const perro = new Perro("Balú");
 perro.comer();
 perro.hacerSonido();
 export {};
-//# sourceMappingURL=index.js.map
+//# sourceMappingURL=ej1.js.map
