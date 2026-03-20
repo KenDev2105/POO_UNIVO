@@ -6,10 +6,10 @@ class Cuadrado extends Figura {
         this.lado = lado;
     }
     calcularArea() {
-        return console.log(`El area del cuadrado es: ${this.lado * this.lado}`);
+        console.log(`El area del cuadrado es: ${this.lado * this.lado}`);
     }
     calcularPerimetro() {
-        return console.log(`El perimetro del cuadrado es: ${this.lado * 4}`);
+        console.log(`El perimetro del cuadrado es: ${this.lado * 4}`);
     }
 }
 class Rectangulo extends Figura {
