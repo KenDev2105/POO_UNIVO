@@ -1,245 +1,148 @@
-import * as readline from 'readline';
+import readline from "readline";
 const rl = readline.createInterface({
     input: process.stdin,
     output: process.stdout
 });
-/* abstract class persona{
-    constructor(public nombre: string) {}
-
-    abstract saludar(): void;
-}
-
-class Salvadoreno extends persona{
-    saludar(): void {
-        console.log("¡Hola que tal! me llamo " + this.nombre);
+//Ejercicio 1
+class Producto {
+    constructor(nombre) {
+        this.nombre = nombre;
+    }
+    mostrarPrecioFinal(precioBase) {
+        const final = this.aplicarDescuento(precioBase);
+        console.log("--------------------------------");
+        console.log("Producto: " + this.nombre);
+        console.log("Precio original: $" + precioBase.toFixed(2));
+        console.log("Precio con descuento: $" + final.toFixed(2));
+        console.log("--------------------------------");
     }
 }
-
-class Ingles extends persona {
-    saludar(): void {
-        console.log("Hello my name is " + this.nombre);
+class Ropa extends Producto {
+    aplicarDescuento(precio) {
+        return precio * 0.8;
     }
 }
-console.log("--- SIMULADOR DE SALUDOS");
+class Electronica extends Producto {
+    aplicarDescuento(precio) {
+        return precio * 0.9;
+    }
+}
+/* console.log("=== SISTEMA DE CAJA REGISTRADORA ===");
+rl.question("Tipo de producto (1: Ropa, 2: Electronica): ", (opcion) =>{
+    rl.question("Ingrese el precio de la etiqueta ", (entrada: string) => {
+        const precio = parseFloat(entrada);
+        let prod: Producto;
 
-rl.question("¿Como te llamas?: ", (nombre: string) =>{
-    rl.question("Elige idioma (1: español, 2: Ingles): ", (opcion: string)=>{
-
-        let alguien: persona;
-
-        if (opcion === "1"){
-            alguien = new Salvadoreno(nombre);
+        if(opcion == "1"){
+            prod = new Ropa("Camisa");
         } else{
-            alguien = new Ingles(nombre);
+            prod = new Electronica("Televisor");
         }
 
-        alguien.saludar();
+        prod.mostrarPrecioFinal(precio);
+        rl.close();
+    })
+})
+ */
+//Ejercicio 2
+class Ejercicio {
+    mostrarCalorias(minutos) {
+        const calorias = this.calcularCalorias(minutos);
+        console.log("--------------------------------");
+        console.log("Duración del ejercicio: " + minutos + " min");
+        console.log("Calorias quemadas: " + calorias + " kcal");
+        console.log("--------------------------------");
+    }
+}
+class Correr extends Ejercicio {
+    calcularCalorias(minutos) {
+        const calorias = minutos * 10;
+        return calorias;
+    }
+    ;
+}
+;
+class Yoga extends Ejercicio {
+    calcularCalorias(minutos) {
+        const calorias = minutos * 4;
+        return calorias;
+    }
+    ;
+}
+;
+/* console.log("=== SISTEMA DE ENTRENAMIENTO ===");
+rl.question("Tipo de ejercicio (1: Correr, 2: Yoga): ", (opcion) =>{
+    rl.question("Ingrese la cantidad de minutos: ", (entrada: string) => {
+        const minutos = parseFloat(entrada);
+        let ejer: Ejercicio;
+        if(opcion == "1"){
+            ejer = new Correr();
+        } else{
+            ejer = new Yoga();
+        }
+        ejer.calcularCalorias(minutos);
+        ejer.mostrarCalorias(minutos);
         rl.close();
     });
-});
-
-abstract class pago {
-    constructor(protected monto: number){
-        if (monto <= 0){
-            throw new Error("El monto debe ser una cantidad positiva. ");
-        }
-    }
-    abstract procesarPago(): void;
-
-public mostrarRecibo(): void{
-    console.log("----------------------------------------------");
-    console.log("RECIBO DE PAGO");
-    console.log("Monto procesado: $" + this.monto);
-    console.log("Estado exitoso");
-    console.log("----------------------------------------------");
+}); */
+//Ejercicio 3
+class Alarma {
+}
+class Incendio extends Alarma {
+    sonar() {
+        console.log("BEEP-BEEP");
     }
 }
-
-class pagoEfectivo extends pago{
-    override procesarPago(): void {
-        console.log("Procesando pago en efectivo...");
-        console.log("Por favor, entregue el dinero al cajero.");
+class Reloj extends Alarma {
+    sonar() {
+        console.log("RIING");
     }
 }
-
-class pagoTarjeta extends pago {
-    constructor(monto: number, private nroTarjeta: string) {
-        super(monto); //enviamos el monto al padre
+/* console.log("=== SISTEMA DE ALARMA ===");
+rl.question("Tipo de alarma (1: Incendio, 2: Reloj): ", (opcion) =>{
+    let alarma: Alarma
+    if(opcion == "1"){
+        alarma = new Incendio();
+    } else{
+        alarma = new Reloj();
     }
-
-    override procesarPago(): void {
-        console.log("Conectando con el banco....");
-        console.log("Validando tarjeta termina en: " + this.nroTarjeta.slice(-4));
-        console.log("Cargo de $" + this.monto + "autorizado.");
-    }
-}
-
-console.log("=== SISTEMA DE COBRO UNIVERSITARIO ===");
-
-rl.question("Seleccione método (1: Efectivo, 2: Tarjeta): ", (opcion: string)=> {
-    rl.question("Ingrese el monto a pagar: ", (montoInput:string) => {
-        const montoNum = parseFloat(montoInput);
-        let miPago: pago; //Variable de tipo padre (poliformismo)
-        if (opcion === "1"){
-            miPago = new pagoEfectivo(montoNum);
-            finalizarTransaccion(miPago);
-        }
-        else if(opcion === "2"){
-            rl.question("Ingrese su número de tarjeta: ", (tarjeta: string) =>{
-                miPago = new pagoTarjeta(montoNum, tarjeta);
-                finalizarTransaccion(miPago);
-            });
-        }
-        else {
-            console.log("Opción no valida.");
-            rl.close();
-        }
-    });
-});
-
-
-function finalizarTransaccion(p: pago){
-    console.log("\nEjecutando proceso de pago...");
-    p.procesarPago(); //aqui se decide que codigo correr (efectivo o tarjeta).
-    p.mostrarRecibo
-    rl.close(); //cerramos la interfaz para que el programa termine.
-} */
-//Ejercicios 
-// 1
-/* abstract class Transporte {
-    constructor(protected nombre: string) {}
-
-    abstract calcularCosto(distancia: number): number;
-
-    public mostrarDetalle(distancia: number): void{
-        const total = this.calcularCosto(distancia);
-
-        console.log("DETALLES DEL VIAJE");
-        console.log("Transporte: " + this.nombre);
-        console.log("Distancia: " + distancia + "KM");
-        console.log("TOTAL A PAGAR: $", + total.toFixed(2));
-        
-    }
-}
-
-class taxi extends Transporte {
-    constructor(){
-        super("Taxi");
-    }
-    override calcularCosto(distancia: number): number {
-        return distancia * 0.50;
-    }
-}
-
-class Uber extends Transporte {
-    constructor() {
-        super("Uber");
-    }
-    override calcularCosto(distancia: number): number {
-        return distancia * 0.75;
-    }
-}
-
-
-console.log("=== SISTEMA DE TRANSPORTE ===");
-
-rl.question("Seleccione Transporte (1: Taxi, 2: Uber): ", (opcion: string)=> {
-    rl.question("Ingresa la distancia en KM: ", (distanciaInput: string)=> {
-
-        const distancia = parseFloat(distanciaInput);
-        if (isNaN(distancia) || distancia <= 0) {
-            console.log("Distancia invalida.");
-            rl.close();
-            return;
-        }
-            let Transporte: Transporte;
-
-            if (opcion === "1"){
-                Transporte = new taxi();
-                finalizarViaje(Transporte, distancia);
-            }
-            else if (opcion === "2"){
-                Transporte = new Uber();
-                finalizarViaje(Transporte, distancia);
-            }
-            else {
-                console.log("Opción no valida.");
-                rl.close();
-            }
-    });
-});
-
-function finalizarViaje(t: Transporte, distancia: number){
-    console.log("\nCalculando costo del viaje...");
-    t.mostrarDetalle(distancia);
+    alarma.sonar();
     rl.close();
-} */
-//2
-class Figura {
-    mostrarResultados() {
-        console.log("RESULTADOS");
-        console.log("Área: " + this.calcularArea().toFixed(2));
-        console.log("Perímetro: " + this.calcularPerimetro().toFixed(2));
+}); */
+//Ejercicio 4
+class Pedido {
+}
+class Hamburguesa extends Pedido {
+    preparar() {
+        console.log("Paso 1: Cocinar la carne");
+        console.log("Paso 2: Preparar el queso");
+        console.log("Paso 3: Preparar el pan");
+        console.log("Paso 4: Preparar los vegetales");
+        console.log("Paso 5: Preparar el aderezo");
+        console.log("Paso 6: Colocar los ingredientes en la hamburguesa");
+        console.log("Paso 7: Servir la hamburguesa");
     }
 }
-class Cuadrado extends Figura {
-    constructor(lado) {
-        super();
-        this.lado = lado;
-    }
-    calcularArea() {
-        return this.lado * this.lado;
-    }
-    calcularPerimetro() {
-        return 4 * this.lado;
+class Pizza extends Pedido {
+    preparar() {
+        console.log("Paso 1: Preparar la masa");
+        console.log("Paso 2: Agregar salsa de tomate");
+        console.log("Paso 3: Agregar el queso y los ingredientes");
+        console.log("Paso 4: Hornear la pizza");
+        console.log("Paso 5: Cortar en porciones");
+        console.log("Paso 6: Servir la pizza");
     }
 }
-class Circulo extends Figura {
-    constructor(radio) {
-        super();
-        this.radio = radio;
-    }
-    calcularArea() {
-        return Math.PI * this.radio * this.radio;
-    }
-    calcularPerimetro() {
-        return 2 * Math.PI * this.radio;
-    }
-}
-console.log("=== CALCULADORA DE FIGURAS ===");
-rl.question("Seleccione figura (1: Cuadrado, 2: Círculo): ", (opcion) => {
-    if (opcion === "1") {
-        rl.question("Ingrese el lado del cuadrado: ", (ladoInput) => {
-            const lado = parseFloat(ladoInput);
-            if (isNaN(lado) || lado <= 0) {
-                console.log("Valor inválido.");
-                rl.close();
-                return;
-            }
-            const figura = new Cuadrado(lado);
-            finalizar(figura);
-        });
-    }
-    else if (opcion === "2") {
-        rl.question("Ingrese el radio del círculo: ", (radioInput) => {
-            const radio = parseFloat(radioInput);
-            if (isNaN(radio) || radio <= 0) {
-                console.log("Valor inválido.");
-                rl.close();
-                return;
-            }
-            const figura = new Circulo(radio);
-            finalizar(figura);
-        });
+console.log("=== SISTEMA DE COCINA ===");
+rl.question("Tipo de pedido (1: Hamburguesa, 2: Pizza): ", (opcion) => {
+    let pedido;
+    if (opcion == "1") {
+        pedido = new Hamburguesa();
     }
     else {
-        console.log("Opción no válida.");
-        rl.close();
+        pedido = new Pizza();
     }
-});
-function finalizar(f) {
-    console.log("\nCalculando resultados...");
-    f.mostrarResultados();
+    pedido.preparar();
     rl.close();
-}
+});
 //# sourceMappingURL=index.js.map
