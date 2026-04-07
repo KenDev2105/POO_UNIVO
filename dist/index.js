@@ -1,148 +1,111 @@
-import readline from "readline";
-const rl = readline.createInterface({
-    input: process.stdin,
-    output: process.stdout
-});
-//Ejercicio 1
-class Producto {
-    constructor(nombre) {
-        this.nombre = nombre;
-    }
-    mostrarPrecioFinal(precioBase) {
-        const final = this.aplicarDescuento(precioBase);
-        console.log("--------------------------------");
-        console.log("Producto: " + this.nombre);
-        console.log("Precio original: $" + precioBase.toFixed(2));
-        console.log("Precio con descuento: $" + final.toFixed(2));
-        console.log("--------------------------------");
-    }
-}
-class Ropa extends Producto {
-    aplicarDescuento(precio) {
-        return precio * 0.8;
-    }
-}
-class Electronica extends Producto {
-    aplicarDescuento(precio) {
-        return precio * 0.9;
-    }
-}
-/* console.log("=== SISTEMA DE CAJA REGISTRADORA ===");
-rl.question("Tipo de producto (1: Ropa, 2: Electronica): ", (opcion) =>{
-    rl.question("Ingrese el precio de la etiqueta ", (entrada: string) => {
-        const precio = parseFloat(entrada);
-        let prod: Producto;
+/* abstract class Banco{
+    usuario:string
+    private saldo:number
+    
+    constructor(usuario:string, saldo:number){
+        this.usuario = usuario;
+        this.saldo = saldo;
+    };
 
-        if(opcion == "1"){
-            prod = new Ropa("Camisa");
-        } else{
-            prod = new Electronica("Televisor");
-        }
+    get nuevoSaldo():number{
+        return this.saldo;
+    }
 
-        prod.mostrarPrecioFinal(precio);
-        rl.close();
-    })
-})
+    set nuevoSaldo(valor:number){
+        if(valor >= 0)
+        this.saldo = valor;
+        else
+        console.log("El saldo debe ser cero o mayor que cero");
+    }
+    
+    mostrar():void{
+        console.log(`${this.usuario} - $${this.saldo.toFixed(2)}`)
+    }
+}
+
+/* let banco = new Banco("Porfirio", 100);
+banco.usuario  = "Isaac"
+banco.nuevoSaldo = 200;
+banco.mostrar();
+
+class Movimientos extends Banco{
+    deposito: number;
+    constructor(nombre:string, saldo:number, deposito:number){
+        super(nombre, saldo);
+        this.deposito = deposito;
+        this.comision()
+    }
+
+    depositar():void{
+        const nuevoMonto = this.nuevoSaldo + this.deposito
+        console.log(`Nuevo Saldo: ${nuevoMonto}`)
+        this.comision()
+    }
+
+    comision(nuevoMonto:number){
+        let salida = nuevoMonto - 1
+        console.log(`Te cobre por la transfer. Nuevo Saldo: ${salida}`)
+    }
+
+}
+
+let dep = 25
+let depositar = new Movimientos("Porfirio", 100, dep)
+depositar.depositar(dep)
+depositar.mostrar()
  */
-//Ejercicio 2
-class Ejercicio {
-    mostrarCalorias(minutos) {
-        const calorias = this.calcularCalorias(minutos);
-        console.log("--------------------------------");
-        console.log("Duración del ejercicio: " + minutos + " min");
-        console.log("Calorias quemadas: " + calorias + " kcal");
-        console.log("--------------------------------");
+/*
+1. Crea una clase abstracta donde se solicite de manera publica el nickname de un
+jugador y el total de vida que es 100% en privado,
+Crear la clase mundo 1 que séra una clase hija, donde se creara un método aventura
+y en ese método se le restara el 30% de vida al jugador,
+Crear el metodo acuatico donde se le restara el 50% de vida y luego se le sumara
+el 10% y crear el método endgame donde se le restara el 50% de vida.
+Cada método debe de imprimir el dato restante de vida que le quedo al jugador.
+
+2. Aplicar al ejercicio 1 el formato de mantener el porcentaje de vida
+para interactuar con los otros métodos, todo imprimiendo siempre mensajes en consola.
+ */
+//Ejercicio 
+class Juego {
+    constructor(nickname, vida) {
+        this.nickname = nickname;
+        this.vida = vida;
+    }
+    get vidaActual() {
+        return this.vida;
+    }
+    set vidaActual(valor) {
+        if (valor >= 0)
+            this.vida = valor;
+        else
+            console.log("La vida debe ser cero o mayor que cero");
+    }
+    mostrar() {
+        console.log(`${this.nickname} - ${this.vidaActual}`);
     }
 }
-class Correr extends Ejercicio {
-    calcularCalorias(minutos) {
-        const calorias = minutos * 10;
-        return calorias;
+class Mundo1 extends Juego {
+    constructor(nickname, vida) {
+        super(nickname, vida);
     }
-    ;
-}
-;
-class Yoga extends Ejercicio {
-    calcularCalorias(minutos) {
-        const calorias = minutos * 4;
-        return calorias;
+    aventura() {
+        const nuevaVida = this.vidaActual - 30;
+        console.log(`Su nueva vida es del ${nuevaVida}%`);
     }
-    ;
-}
-;
-/* console.log("=== SISTEMA DE ENTRENAMIENTO ===");
-rl.question("Tipo de ejercicio (1: Correr, 2: Yoga): ", (opcion) =>{
-    rl.question("Ingrese la cantidad de minutos: ", (entrada: string) => {
-        const minutos = parseFloat(entrada);
-        let ejer: Ejercicio;
-        if(opcion == "1"){
-            ejer = new Correr();
-        } else{
-            ejer = new Yoga();
-        }
-        ejer.calcularCalorias(minutos);
-        ejer.mostrarCalorias(minutos);
-        rl.close();
-    });
-}); */
-//Ejercicio 3
-class Alarma {
-}
-class Incendio extends Alarma {
-    sonar() {
-        console.log("BEEP-BEEP");
+    acuatico() {
+        const nuevaVida = this.vidaActual - 50 + 10;
+        console.log(`Su nueva vida es del ${nuevaVida}%`);
+    }
+    endgame() {
+        const nuevaVida = this.vidaActual - 50;
+        console.log(`Su nueva vida es del ${nuevaVida}%`);
     }
 }
-class Reloj extends Alarma {
-    sonar() {
-        console.log("RIING");
-    }
-}
-/* console.log("=== SISTEMA DE ALARMA ===");
-rl.question("Tipo de alarma (1: Incendio, 2: Reloj): ", (opcion) =>{
-    let alarma: Alarma
-    if(opcion == "1"){
-        alarma = new Incendio();
-    } else{
-        alarma = new Reloj();
-    }
-    alarma.sonar();
-    rl.close();
-}); */
-//Ejercicio 4
-class Pedido {
-}
-class Hamburguesa extends Pedido {
-    preparar() {
-        console.log("Paso 1: Cocinar la carne");
-        console.log("Paso 2: Preparar el queso");
-        console.log("Paso 3: Preparar el pan");
-        console.log("Paso 4: Preparar los vegetales");
-        console.log("Paso 5: Preparar el aderezo");
-        console.log("Paso 6: Colocar los ingredientes en la hamburguesa");
-        console.log("Paso 7: Servir la hamburguesa");
-    }
-}
-class Pizza extends Pedido {
-    preparar() {
-        console.log("Paso 1: Preparar la masa");
-        console.log("Paso 2: Agregar salsa de tomate");
-        console.log("Paso 3: Agregar el queso y los ingredientes");
-        console.log("Paso 4: Hornear la pizza");
-        console.log("Paso 5: Cortar en porciones");
-        console.log("Paso 6: Servir la pizza");
-    }
-}
-console.log("=== SISTEMA DE COCINA ===");
-rl.question("Tipo de pedido (1: Hamburguesa, 2: Pizza): ", (opcion) => {
-    let pedido;
-    if (opcion == "1") {
-        pedido = new Hamburguesa();
-    }
-    else {
-        pedido = new Pizza();
-    }
-    pedido.preparar();
-    rl.close();
-});
+const jugador = new Mundo1("Porfirio", 100);
+jugador.aventura();
+jugador.acuatico();
+jugador.endgame();
+jugador.mostrar();
+export {};
 //# sourceMappingURL=index.js.map
