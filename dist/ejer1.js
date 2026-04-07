@@ -34,4 +34,4 @@ class Cliente extends Persona {
 }
 const cliente1 = new Cliente();
 cliente1.pedirSueldo();
-//# sourceMappingURL=index.js.map
+//# sourceMappingURL=ejer1.js.map
