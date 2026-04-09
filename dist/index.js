@@ -1,116 +1,70 @@
-import readline from "readline";
-const rl = readline.createInterface({
-    input: process.stdin,
-    output: process.stdout
-});
-class CuentaBancaria {
-    constructor(saldoInicial) {
-        this._saldo = saldoInicial;
-    }
-    ;
-    get saldo() {
-        return this._saldo;
-    }
-    ;
-    set saldo(nuevoSaldo) {
-        if (nuevoSaldo < 0) {
-            console.log("Error: NO puedes tener un saldo negativo.");
-        }
-        else {
-            this._saldo = nuevoSaldo;
-            console.log("Saldo actualizado correctamente.");
-        }
+// Ejemplo 1
+/* Pantalla de Carga de una Computadora:
+Una pantalla de carga de una computadora (en la cual sale el logo),
+puede variar dependiendo de la marca del computador. Por lo cual
+un metodo mostrarPCarga()puede variar segun la marca del computador. */
+class Computadora {
+}
+class Lenovo extends Computadora {
+    mostrarPCarga() {
+        console.log("---LENOVO--- \n  Cargando...");
     }
 }
-const miCuenta = new CuentaBancaria(1000);
-console.log("Tu saldo es: " + miCuenta.saldo);
-miCuenta.saldo = -1000;
-console.log("Tu saldo es: " + miCuenta.saldo);
-class Usuario {
-    constructor(id, nombre, edad) {
-        this._id = id;
-        this._nombre = nombre;
-        this._edad = edad;
+class HP extends Computadora {
+    mostrarPCarga() {
+        console.log("---HP--- \n  Cargando...");
     }
-    ;
-    get id() {
-        return this._id;
+}
+class Asus extends Computadora {
+    mostrarPCarga() {
+        console.log("---ASUS--- \n  Cargando...");
     }
-    ;
-    get nombre() {
-        return this._nombre.toUpperCase();
-    }
-    ;
-    set nombre(nuevoNombre) {
-        if (nuevoNombre.length > 2) {
-            this._nombre = nuevoNombre;
-            console.log("Nombre actualizado correctamente.");
-        }
-        else {
-            console.log("Error: El nombre es muy corto");
-        }
-        ;
-    }
-    get edad() {
-        return this._edad;
-    }
-    ;
-    set edad(nuevaEdad) {
-        if (nuevaEdad >= 18 && nuevaEdad < 100) {
-            this._edad = nuevaEdad;
-            console.log("Edad actualizada correctamente.");
-        }
-        else {
-            console.log("Error: Edad no permitida por el sistema.");
-        }
+}
+let lenovo = new Lenovo();
+let hp = new HP();
+let asus = new Asus();
+lenovo.mostrarPCarga();
+hp.mostrarPCarga();
+asus.mostrarPCarga();
+// Ejemplo 2
+/* Mostrar resultado de una operación:
+El resultado de una operación puede variar dependiendo de que
+operación realicemos, un metodo mostrarResultado()
+puede variar si estamos multiplicando, dividiendo, sumando o restando */
+class Operacion {
+    constructor(a, b) {
+        this.a = a;
+        this.b = b;
     }
     ;
 }
-const usuario1 = new Usuario(101, "Ken", 20);
-console.log("ID del usuario " + usuario1.id);
-usuario1.nombre = "Kenneth";
-console.log("Nombre del usuario: " + usuario1.nombre);
-usuario1.edad = 18;
-console.log("Edad del usuario: " + usuario1.edad);
-class RegistroMateria {
-    constructor(nombreMateria, nota) {
-        this._nota = 0;
-        this._nombreMateria = nombreMateria;
-        this._nota = nota;
+class Suma extends Operacion {
+    mostrarResultado() {
+        return this.a + this.b;
     }
-    ;
-    get nombreMateria() {
-        return this._nombreMateria;
-    }
-    ;
-    get nota() {
-        return this._nota;
-    }
-    ;
-    set nota(valor) {
-        if (valor >= 0 && valor <= 10) {
-            this._nota = valor;
-            console.log("Nota actualizada correctamente.");
-        }
-        else {
-            console.log("ERROR: La nota debe ser entre 0.0 y 10.0");
-        }
-    }
-    get estado() {
-        return this._nota >= 6 ? "APROBADO" : "REPROBADO";
-    }
-    ;
 }
-const registro = new RegistroMateria("Matemáticas", 8);
-console.log("=== SISTEMA DE GESTIÓN ACADEMICA ===");
-rl.question(`Ingrese la nota para ${registro.nombreMateria}: `, (nota) => {
-    const n = parseFloat(nota);
-    registro.nota = n;
-    console.log("\n------------------------");
-    console.log(`Materia: ${registro.nombreMateria}`);
-    console.log(`Nota Final: ${registro.nota.toFixed(1)}`);
-    console.log(`Resultado: ${registro.estado}`);
-    console.log("------------------------\n");
-    rl.close();
-});
+class Resta extends Operacion {
+    mostrarResultado() {
+        return this.a - this.b;
+    }
+}
+class Multiplicacion extends Operacion {
+    mostrarResultado() {
+        return this.a * this.b;
+    }
+}
+class Division extends Operacion {
+    mostrarResultado() {
+        return this.a / this.b;
+    }
+}
+let suma = new Suma(10, 5);
+let resta = new Resta(10, 5);
+let multiplicacion = new Multiplicacion(10, 5);
+let division = new Division(10, 5);
+console.log(`El resultado de la suma es: ${suma.mostrarResultado()}`);
+console.log(`El resultado de la resta es: ${resta.mostrarResultado()}`);
+console.log(`El resultado de la multiplicacion es: ${multiplicacion.mostrarResultado()}`);
+console.log(`El resultado de la division es: ${division.mostrarResultado()}`);
+export {};
 //# sourceMappingURL=index.js.map
