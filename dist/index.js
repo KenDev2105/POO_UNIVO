@@ -1,70 +1,107 @@
-// Ejemplo 1
-/* Pantalla de Carga de una Computadora:
-Una pantalla de carga de una computadora (en la cual sale el logo),
-puede variar dependiendo de la marca del computador. Por lo cual
-un metodo mostrarPCarga()puede variar segun la marca del computador. */
-class Computadora {
-}
-class Lenovo extends Computadora {
-    mostrarPCarga() {
-        console.log("---LENOVO--- \n  Cargando...");
+import readline from "readline";
+const rl = readline.createInterface({
+    input: process.stdin,
+    output: process.stdout
+});
+class Rectangle {
+    constructor(width, height) {
+        this.width = width;
+        this.height = height;
+    }
+    getArea() {
+        return this.width * this.height;
     }
 }
-class HP extends Computadora {
-    mostrarPCarga() {
-        console.log("---HP--- \n  Cargando...");
+class Square extends Rectangle {
+    constructor(width) {
+        super(width, width);
     }
 }
-class Asus extends Computadora {
-    mostrarPCarga() {
-        console.log("---ASUS--- \n  Cargando...");
+const rect = new Rectangle(4, 5);
+const sqr = new Square(5);
+console.log(rect.getArea(), sqr.getArea());
+//Metodos de Pago
+//USO DE CLASS ABSTRACTA, Paypal y TarjetaCredito
+//Clase Abstracta
+class MetodoPago {
+    constructor(tipo) {
+        this.tipo = tipo;
+    }
+    ;
+    confirmarPago(monto) {
+        if (!this.validar()) {
+            return ("Pago rechazado, por validacion fallida");
+        }
+        return this.procesar(monto);
     }
 }
-let lenovo = new Lenovo();
-let hp = new HP();
-let asus = new Asus();
-lenovo.mostrarPCarga();
-hp.mostrarPCarga();
-asus.mostrarPCarga();
-// Ejemplo 2
-/* Mostrar resultado de una operación:
-El resultado de una operación puede variar dependiendo de que
-operación realicemos, un metodo mostrarResultado()
-puede variar si estamos multiplicando, dividiendo, sumando o restando */
-class Operacion {
-    constructor(a, b) {
-        this.a = a;
-        this.b = b;
+class TarjetaCredito extends MetodoPago {
+    constructor(numeroTarjeta, CVV) {
+        super("Tarjeta de Credito");
+        this.numeroTarjeta = numeroTarjeta;
+        this.CVV = CVV;
+    }
+    validar() {
+        return this.numeroTarjeta.length === 16 && this.CVV.length === 3;
+    }
+    procesar(monto) {
+        return `Pago procesado de ${monto} de la tarjeta ${this.numeroTarjeta.slice(-4)}`;
     }
     ;
 }
-class Suma extends Operacion {
-    mostrarResultado() {
-        return this.a + this.b;
+class Paypal extends MetodoPago {
+    constructor(email) {
+        super("Paypal");
+        this.email = email;
+    }
+    validar() {
+        return this.email.includes("@") && this.email.includes(".");
+    }
+    procesar(monto) {
+        return `Pago procesado de ${monto} del Paypal ${this.email}`;
     }
 }
-class Resta extends Operacion {
-    mostrarResultado() {
-        return this.a - this.b;
+class Efectivo extends MetodoPago {
+    constructor(dui) {
+        super("Efectivo");
+        this.dui = dui;
+    }
+    validar() {
+        return this.dui.length === 9;
+    }
+    procesar(monto) {
+        return `Pago procesado de ${monto} del DUI ${this.dui}`;
     }
 }
-class Multiplicacion extends Operacion {
-    mostrarResultado() {
-        return this.a * this.b;
+rl.question("Ingresa el metodo de pago (1: Tarjeta, 2: Paypal, 3: Efectivo): ", (metodo) => {
+    metodo = metodo.toLowerCase();
+    switch (metodo) {
+        case "1":
+            rl.question("Ingresa el numero de la tarjeta: ", (num) => {
+                rl.question("Ingresa el CVV: ", (CVV) => {
+                    const tarjeta = new TarjetaCredito(num, CVV);
+                    rl.question("Ingresa el monto a pagar: ", (monto) => {
+                        console.log(tarjeta.confirmarPago(Number(monto)));
+                        rl.close();
+                    });
+                });
+            });
+        case "2":
+            rl.question("Ingresa el email: ", (email) => {
+                const paypal = new Paypal(email);
+                rl.question("Ingresa el monto a pagar:", (monto) => {
+                    console.log(paypal.confirmarPago(Number(monto)));
+                    rl.close();
+                });
+            });
+        case "3":
+            rl.question("Ingresa el DUI: ", (dui) => {
+                const efectivo = new Efectivo(dui);
+                rl.question("Ingresa el monto a pagar:", (monto) => {
+                    console.log(efectivo.confirmarPago(Number(monto)));
+                    rl.close();
+                });
+            });
     }
-}
-class Division extends Operacion {
-    mostrarResultado() {
-        return this.a / this.b;
-    }
-}
-let suma = new Suma(10, 5);
-let resta = new Resta(10, 5);
-let multiplicacion = new Multiplicacion(10, 5);
-let division = new Division(10, 5);
-console.log(`El resultado de la suma es: ${suma.mostrarResultado()}`);
-console.log(`El resultado de la resta es: ${resta.mostrarResultado()}`);
-console.log(`El resultado de la multiplicacion es: ${multiplicacion.mostrarResultado()}`);
-console.log(`El resultado de la division es: ${division.mostrarResultado()}`);
-export {};
+});
 //# sourceMappingURL=index.js.map
