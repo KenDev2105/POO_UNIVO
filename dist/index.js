@@ -1,187 +1,128 @@
-import { parse } from "path";
 import readline from "readline";
 const rl = readline.createInterface({
     input: process.stdin,
     output: process.stdout
 });
-class CuentaBancaria {
-    constructor(saldoInicial) {
-        this._saldo = saldoInicial;
-    }
-    ;
-    get saldo() {
-        return this._saldo;
-    }
-    ;
-    set saldo(nuevoSaldo) {
-        if (nuevoSaldo < 0) {
-            console.log("Error: NO puedes tener un saldo negativo.");
-        }
-        else {
-            this._saldo = nuevoSaldo;
-            console.log("Saldo actualizado correctamente.");
-        }
-    }
-}
-const miCuenta = new CuentaBancaria(1000);
-console.log("Tu saldo es: " + miCuenta.saldo);
-miCuenta.saldo = -1000;
-console.log("Tu saldo es: " + miCuenta.saldo);
-class Usuario {
-    constructor(id, nombre, edad) {
-        this._id = id;
+class Consulta {
+    constructor(nombre, nacimiento, edad, telefono, responsable, responsableNumero) {
         this._nombre = nombre;
+        this._nacimiento = nacimiento;
         this._edad = edad;
+        this._telefono = telefono;
+        this._responsable = responsable;
+        this._responsableNumero = responsableNumero;
     }
-    ;
-    get id() {
-        return this._id;
-    }
-    ;
     get nombre() {
-        return this._nombre.toUpperCase();
+        return this._nombre;
     }
-    ;
-    set nombre(nuevoNombre) {
-        if (nuevoNombre.length > 2) {
-            this._nombre = nuevoNombre;
-            console.log("Nombre actualizado correctamente.");
-        }
-        else {
-            console.log("Error: El nombre es muy corto");
-        }
-        ;
+    set nombre(nombre) {
+        this._nombre = nombre;
+    }
+    get nacimiento() {
+        return this._nacimiento;
+    }
+    set nacimiento(nacimiento) {
+        this._nacimiento = nacimiento;
     }
     get edad() {
         return this._edad;
     }
-    ;
-    set edad(nuevaEdad) {
-        if (nuevaEdad >= 18 && nuevaEdad < 100) {
-            this._edad = nuevaEdad;
-            console.log("Edad actualizada correctamente.");
+    set edad(edad) {
+        this._edad = edad;
+    }
+    get telefono() {
+        return this._telefono;
+    }
+    set telefono(telefono) {
+        this._telefono = telefono;
+    }
+    get responsable() {
+        return this._responsable;
+    }
+    set responsable(responsable) {
+        this._responsable = responsable;
+    }
+    get responsableNumero() {
+        return this._responsableNumero;
+    }
+    set responsableNumero(responsableNumero) {
+        this._responsableNumero = responsableNumero;
+    }
+    imprimirDatos(sintomas) {
+        console.log("\n--- Resumen de la Consulta ---");
+        console.log(`Nombre del Paciente: ${this.nombre}`);
+        console.log(`Fecha de Nacimiento: ${this.nacimiento}`);
+        console.log(`Edad: ${this.edad} años`);
+        console.log(`Teléfono: ${this.telefono}`);
+        console.log(`Responsable: ${this.responsable}`);
+        console.log(`Teléfono del Responsable: ${this.responsableNumero}`);
+        console.log(`Síntomas: ${sintomas}`);
+    }
+    esMenorDeEdad() {
+        if (this.edad < 18) {
+            console.log("El paciente es menor de edad. Debe venir acompañado de un adulto mayor.");
         }
         else {
-            console.log("Error: Edad no permitida por el sistema.");
-        }
-    }
-    ;
-}
-const usuario1 = new Usuario(101, "Ken", 20);
-console.log("ID del usuario " + usuario1.id);
-usuario1.nombre = "Kenneth";
-console.log("Nombre del usuario: " + usuario1.nombre);
-usuario1.edad = 18;
-console.log("Edad del usuario: " + usuario1.edad);
-class RegistroMateria {
-    constructor(nombreMateria, nota) {
-        this._nota = 0;
-        this._nombreMateria = nombreMateria;
-        this._nota = nota;
-    }
-    ;
-    get nombreMateria() {
-        return this._nombreMateria;
-    }
-    ;
-    get nota() {
-        return this._nota;
-    }
-    ;
-    set nota(valor) {
-        if (valor >= 0 && valor <= 10) {
-            this._nota = valor;
-            console.log("Nota actualizada correctamente.");
-        }
-        else {
-            console.log("ERROR: La nota debe ser entre 0.0 y 10.0");
-        }
-    }
-    get estado() {
-        return this._nota >= 6 ? "APROBADO" : "REPROBADO";
-    }
-    ;
-}
-const registro = new RegistroMateria("Matemáticas", 8);
-console.log("=== SISTEMA DE GESTIÓN ACADEMICA ===");
-/* rl.question(`Ingrese la nota para ${registro.nombreMateria}: `, (nota) =>{
-    const n = parseFloat(nota);
-
-    registro.nota = n;
-
-    console.log("\n------------------------")
-    console.log(`Materia: ${registro.nombreMateria}`);
-    console.log(`Nota Final: ${registro.nota.toFixed(1)}`);
-    console.log(`Resultado: ${registro.estado}`);
-    console.log("------------------------\n");
-    rl.close();
-}) */
-//Ejercicio 1
-class Termostato {
-    constructor() {
-        this._temperatura = 20;
-    }
-    get temperatura() {
-        return this._temperatura + "°C";
-    }
-    ;
-    set temperatura(nuevaTemperatura) {
-        if (nuevaTemperatura > 25) {
-            nuevaTemperatura = 25;
-            console.log("El valor maximo de la temperatura debe ser 25°C");
-        }
-        else if (nuevaTemperatura < 18) {
-            nuevaTemperatura = 18;
-            console.log("El valor minimo de la temperatura debe ser 18°C");
-        }
-        this._temperatura = nuevaTemperatura;
-        console.log("Temperatura actualizada correctamente.");
-    }
-    ;
-}
-;
-/*
-console.log("===== SISTEMA DE TERMOSTATO =====")
-rl.question("Ingrese el nuevo valor de la temperatura: ", (temp)=>{
-    const t = new Termostato();
-    t.temperatura = parseFloat(temp);
-    console.log("La nueva temperatura es: " + t.temperatura);
-    rl.close();
-})
-console.log("==================================") */
-//Ejercicio 2
-class TanqueCombustible {
-    constructor(diesel) {
-        this._diesel = diesel;
-    }
-    ;
-    get diesel() {
-        if (this._diesel < 15) {
-            console.log("NIVEL CRITICO");
-        }
-        else {
-            console.log("NIVEL NORMAL");
-        }
-        return this._diesel + "%";
-    }
-    ;
-    set diesel(nuevoValor) {
-        if (nuevoValor < 0 || nuevoValor > 100) {
-            console.log("ERROR: EL valor debe ser entre 0 y 100");
-        }
-        else {
-            this._diesel = nuevoValor;
-            console.log("Combustible actualizado correctamente.");
+            console.log("El paciente es mayor de edad.");
         }
     }
 }
-;
-const tanque = new TanqueCombustible(50);
-console.log("Nivel actual del tanque de combustible: " + tanque.diesel);
-console.log("===== SISTEMA DE TANQUE DE COMBUSTIBLE =====");
-rl.question("Ingrese el porcentaje de combustible: ", (combustible) => {
-    tanque.diesel = parseFloat(combustible);
-    console.log("El nuevo nivel del tanque es: " + tanque.diesel);
-    rl.close();
+class MedicoGeneral extends Consulta {
+    calcularPrecio(codigoEstudiantil) {
+        const precioBase = 50;
+        const porcentajeDescuento = parseInt(codigoEstudiantil.slice(-2)) / 100;
+        const montoDescuento = precioBase * porcentajeDescuento;
+        const total = precioBase - montoDescuento;
+        return total;
+    }
+}
+class MedicoEspecialista extends Consulta {
+    calcularPrecio(codigoEstudiantil) {
+        const precioBase = 90;
+        const porcentajeDescuentoEstudiantil = parseInt(codigoEstudiantil.slice(-2)) / 100;
+        const montoDescuentoEstudiantil = precioBase * porcentajeDescuentoEstudiantil;
+        const montoDescuentoEquipo = precioBase * 0.03;
+        const total = precioBase - montoDescuentoEstudiantil - montoDescuentoEquipo;
+        return total;
+    }
+}
+console.log("--- Sistema de Gestión de Consultas Médicas ---");
+rl.question("Ingrese su nombre: ", (nombre) => {
+    rl.question("Ingrese su fecha de nacimiento (DD/MM/AAAA): ", (nacimiento) => {
+        rl.question("Ingrese su edad: ", (edadStr) => {
+            rl.question("Ingrese su teléfono: ", (telefono) => {
+                rl.question("Ingrese el nombre del responsable: ", (responsable) => {
+                    rl.question("Ingrese el teléfono del responsable: ", (responsableNumero) => {
+                        rl.question("¿Que tipo de consulta prefiere? (1: General, 2: Especialidad)): ", (tipoConsulta) => {
+                            let consulta;
+                            if (tipoConsulta === '1') {
+                                consulta = new MedicoGeneral(nombre, nacimiento, Number(edadStr), telefono, responsable, responsableNumero);
+                                console.log("\nProcesando Consulta General...");
+                            }
+                            else if (tipoConsulta === '2') {
+                                consulta = new MedicoEspecialista(nombre, nacimiento, Number(edadStr), telefono, responsable, responsableNumero);
+                                console.log("\nProcesando Consulta de Especialidad...");
+                            }
+                            else {
+                                console.log("Tipo de consulta no válido. Saliendo del sistema.");
+                                rl.close();
+                                return;
+                            }
+                            consulta.esMenorDeEdad();
+                            rl.question("Ingrese los síntomas: ", (sintomas) => {
+                                rl.question("Ingrese el código estudiantil (ej: u20260430): ", (codigoEstudiantil) => {
+                                    const precio = consulta.calcularPrecio(codigoEstudiantil);
+                                    consulta.imprimirDatos(sintomas);
+                                    console.log(`Costo a Cancelar: $${precio.toFixed(2)}`);
+                                    console.log("---------------------------------");
+                                    rl.close();
+                                });
+                            });
+                        });
+                    });
+                });
+            });
+        });
+    });
 });
 //# sourceMappingURL=index.js.map
